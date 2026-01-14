@@ -33,6 +33,21 @@ public class Item {
 	private Status status;
 	private LocalDate date;
 	
+	private String receiverName;
+	private String receiverEmail;
+	
+	public String getReceiverName() {
+		return receiverName;
+	}
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
+	public String getReceiverEmail() {
+		return receiverEmail;
+	}
+	public void setReceiverEmail(String receiverEmail) {
+		this.receiverEmail = receiverEmail;
+	}
 	public Long getId() {
 		return id;
 	}

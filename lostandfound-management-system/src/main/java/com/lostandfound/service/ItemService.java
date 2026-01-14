@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.lostandfound.dto.ItemRequest;
 import com.lostandfound.dto.ItemResponse;
+import com.lostandfound.dto.UpdateItemStatusRequest;
 import com.lostandfound.model.Item;
 import com.lostandfound.model.Status;
 import com.lostandfound.model.User;
@@ -53,7 +54,7 @@ public class ItemService {
         return res;
 	}
 	
-	public ItemResponse updateStatus(Long itemId, Status status, User user) {
+	public ItemResponse updateStatus(Long itemId, UpdateItemStatusRequest request, User user) {
 
 	    Item item = repository.findById(itemId)
 	            .orElseThrow(() -> new RuntimeException("Item not found"));
@@ -61,8 +62,22 @@ public class ItemService {
 	    if (!item.getReportedBy().getId().equals(user.getId())) {
 	        throw new RuntimeException("You are not allowed to update this item");
 	    }
+	    
+	    if (request.getStatus() == Status.DELIVERED) {
 
-	    item.setStatus(status);
+	        if (request.getReceiverName() == null || request.getReceiverName().isBlank()) {
+	            throw new RuntimeException("Receiver name is required for DELIVERED status");
+	        }
+
+	        if (request.getReceiverEmail() == null || request.getReceiverEmail().isBlank()) {
+	            throw new RuntimeException("Receiver email is required for DELIVERED status");
+	        }
+
+	        item.setReceiverName(request.getReceiverName());
+	        item.setReceiverEmail(request.getReceiverEmail());
+	    }
+
+	    item.setStatus(request.getStatus());
 
 	    Item updated = repository.save(item);
 	    return mapToResponse(updated);
