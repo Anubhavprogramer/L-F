@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lostandfound.dto.ItemRequest;
 import com.lostandfound.dto.ItemResponse;
 import com.lostandfound.service.ItemService;
+import com.lostandfound.util.ApiResponse;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/items")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class ItemController {
 
     private final ItemService service;
@@ -27,12 +28,13 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemResponse create(@Valid @RequestBody ItemRequest request) {
-        return service.create(request);
+    public ApiResponse<ItemResponse> create(@Valid @RequestBody ItemRequest request) {
+        ItemResponse res = service.create(request);
+        return ApiResponse.success("Item reporter successfully", res);
     }
 
     @GetMapping
-    public List<ItemResponse> getAll() {
-        return service.getAll();
+    public ApiResponse<List<ItemResponse>> getAll() {
+        return ApiResponse.success("Items fetched successfully", service.getAll());
     }
 }

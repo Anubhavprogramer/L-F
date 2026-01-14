@@ -8,10 +8,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jdk.jfr.DataAmount;
-import lombok.Data;
-import com.lostandfound.model.Status;
 
 
 @Entity
@@ -24,6 +24,10 @@ public class Item {
 	private String name;
 	private String Description;
 	private String location;
+	
+	@ManyToOne
+//	@JoinColumn(name = "user_id")
+//	private User reportedBy;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -65,4 +69,11 @@ public class Item {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
+	
+//	public User getReportedBy() {
+//		return reportedBy;
+//	}
+//	public void setReportedBy(User reportedBy) {
+//		this.reportedBy = reportedBy;
+//	}
 }

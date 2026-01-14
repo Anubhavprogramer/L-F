@@ -8,6 +8,7 @@ import com.lostandfound.dto.ItemRequest;
 import com.lostandfound.dto.ItemResponse;
 import com.lostandfound.model.Item;
 import com.lostandfound.model.Status;
+import com.lostandfound.model.User;
 import com.lostandfound.repository.ItemRepository;
 
 import java.util.List;
@@ -21,13 +22,14 @@ public class ItemService {
 		this.repository = repository;
 	}
 	
-	public ItemResponse create(ItemRequest request) {
+	public ItemResponse create(ItemRequest request) {  // add  User user
 		Item item = new Item();
 		item.setName(request.getName());
 		item.setDescription(request.getDescription());
 		item.setLocation(request.getLocation());
 		item.setStatus(Status.LOST);
 		item.setDate(LocalDate.now());
+//		item.setReportedBy(user);
 		
 		Item saved = repository.save(item);
 		return mapToResponse(saved);

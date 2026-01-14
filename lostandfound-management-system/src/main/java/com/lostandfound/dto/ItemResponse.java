@@ -2,9 +2,7 @@ package com.lostandfound.dto;
 
 import java.time.LocalDate;
 import com.lostandfound.model.Status;
-import lombok.Data;
 
-@Data
 public class ItemResponse {
 	private Long id;
 	private String name;

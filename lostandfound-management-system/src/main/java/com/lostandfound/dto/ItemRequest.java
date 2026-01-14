@@ -2,9 +2,6 @@ package com.lostandfound.dto;
 
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-
-@Data
 public class ItemRequest {
 	@NotBlank
 	private String name;
