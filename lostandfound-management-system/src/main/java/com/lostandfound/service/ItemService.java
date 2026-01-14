@@ -53,4 +53,19 @@ public class ItemService {
         return res;
 	}
 	
+	public ItemResponse updateStatus(Long itemId, Status status, User user) {
+
+	    Item item = repository.findById(itemId)
+	            .orElseThrow(() -> new RuntimeException("Item not found"));
+
+	    if (!item.getReportedBy().getId().equals(user.getId())) {
+	        throw new RuntimeException("You are not allowed to update this item");
+	    }
+
+	    item.setStatus(status);
+
+	    Item updated = repository.save(item);
+	    return mapToResponse(updated);
+	}
+	
 }
