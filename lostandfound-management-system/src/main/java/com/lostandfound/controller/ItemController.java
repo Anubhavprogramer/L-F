@@ -2,6 +2,7 @@ package com.lostandfound.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lostandfound.dto.ItemRequest;
 import com.lostandfound.dto.ItemResponse;
+import com.lostandfound.model.User;
 import com.lostandfound.service.ItemService;
 import com.lostandfound.util.ApiResponse;
 
@@ -28,8 +30,8 @@ public class ItemController {
     }
 
     @PostMapping
-    public ApiResponse<ItemResponse> create(@Valid @RequestBody ItemRequest request) {
-        ItemResponse res = service.create(request);
+    public ApiResponse<ItemResponse> create(@Valid @RequestBody ItemRequest request, @AuthenticationPrincipal User user) {
+        ItemResponse res = service.create(request, user);
         return ApiResponse.success("Item reporter successfully", res);
     }
 

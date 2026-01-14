@@ -22,14 +22,14 @@ public class ItemService {
 		this.repository = repository;
 	}
 	
-	public ItemResponse create(ItemRequest request) {  // add  User user
+	public ItemResponse create(ItemRequest request, User user) {  
 		Item item = new Item();
 		item.setName(request.getName());
 		item.setDescription(request.getDescription());
 		item.setLocation(request.getLocation());
 		item.setStatus(Status.LOST);
 		item.setDate(LocalDate.now());
-//		item.setReportedBy(user);
+		item.setReportedBy(user);
 		
 		Item saved = repository.save(item);
 		return mapToResponse(saved);

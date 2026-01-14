@@ -26,8 +26,8 @@ public class Item {
 	private String location;
 	
 	@ManyToOne
-//	@JoinColumn(name = "user_id")
-//	private User reportedBy;
+	@JoinColumn(name = "user_id")
+	private User reportedBy;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -70,10 +70,10 @@ public class Item {
 		this.date = date;
 	}
 	
-//	public User getReportedBy() {
-//		return reportedBy;
-//	}
-//	public void setReportedBy(User reportedBy) {
-//		this.reportedBy = reportedBy;
-//	}
+	public User getReportedBy() {
+		return reportedBy;
+	}
+	public void setReportedBy(User reportedBy) {
+		this.reportedBy = reportedBy;
+	}
 }

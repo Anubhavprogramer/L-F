@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lostandfound.dto.LoginRequest;
 import com.lostandfound.dto.RegiesterRequest;
 import com.lostandfound.model.User;
+import com.lostandfound.security.JwtUtil;
 import com.lostandfound.service.AuthService;
 import com.lostandfound.util.ApiResponse;
 
@@ -19,23 +20,25 @@ import jakarta.validation.Valid;
 class AuthController{
 	
 	private final AuthService service;
+	private final JwtUtil jwtUtil;
 	
-	public AuthController(AuthService service) {
+	public AuthController(AuthService service, JwtUtil jwtUtil) {
 		this.service = service;
+		this.jwtUtil = jwtUtil;
 	}
 	
 	@PostMapping("/register")
-	public ApiResponse<Void> register(@Valid @RequestBody RegiesterRequest req) {
-		service.register(req);
-		return ApiResponse.success("User Registered Succesfully");
+	public ApiResponse<String> register(@Valid @RequestBody RegiesterRequest req) {
+		User user = service.register(req);
+		String token = jwtUtil.generateToken(user.getEmail());
+		return ApiResponse.success("User Registered Succesfully", token);
 	}
 	
 	@PostMapping("/Login")
-	public ApiResponse<User> login(@RequestBody LoginRequest req){
+	public ApiResponse<String> login(@RequestBody LoginRequest req){
 		User user = service.login(req);
-		return ApiResponse.success("Login successfull", user);
+		
+		String token = jwtUtil.generateToken(user.getEmail());
+		return ApiResponse.success("Login successfull", token);
 	}
-	
-	
-	
 }
